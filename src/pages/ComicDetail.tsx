@@ -17,6 +17,7 @@ interface Comic {
   id: number; title: string; slug: string; description: string;
   coverImage?: string; status: string; viewCount: number; shareCount: number;
   publisher: { id: number; name: string };
+  author?: string; 
   genres: { genre: { id: number; name: string; slug: string } }[];
   chapters: Chapter[];
   _count: { favorites: number; comments: number; ratings: number };
