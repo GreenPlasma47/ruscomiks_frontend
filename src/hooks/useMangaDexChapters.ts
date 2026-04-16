@@ -82,9 +82,9 @@ export function useMangaDexChapters() {
 
   // Fetch page image URLs for a single chapter
   const fetchPages = useCallback(async (chapterId: string): Promise<MdPage[]> => {
-    const res = await fetch(`${BASE}/at-home/server/${chapterId}`);
-    if (!res.ok) throw new Error(`at-home error: ${res.status}`);
-    const json = await res.json();
+    const res = await api.get(`/mangadex/server/${chapterId}`);
+    if (!res) throw new Error("MangaDex at-home error: No response received");
+    const json = res.data;
 
     const baseUrl    = json.baseUrl;
     const hash       = json.chapter.hash;
