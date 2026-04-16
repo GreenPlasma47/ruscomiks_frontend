@@ -33,15 +33,25 @@ export function useMangaDexChapters() {
     setLoading(true); setError(null); setChapters([]);
     try {
       // MangaDex paginates at 500 max — fetch first 500
-      const params = new URLSearchParams({
+      const params = {
         "translatedLanguage[]": language,
         limit: "500",
         "order[chapter]": "asc",
         "contentRating[]": "safe",
-      });
-      const res = await fetch(`${BASE}/manga/${mangaDexMangaId}/feed?${params}`);
+      };
+
+      const res = await api.get(`/mangadex/feed/${mangaDexMangaId}`, { params });
       if (!res.ok) throw new Error(`MangaDex feed error: ${res.status}`);
-      const json = await res.json();
+      const json = res.data;
+      // const params = new URLSearchParams({
+      //   "translatedLanguage[]": language,
+      //   limit: "500",
+      //   "order[chapter]": "asc",
+      //   "contentRating[]": "safe",
+      // });
+      // const res = await fetch(`${BASE}/manga/${mangaDexMangaId}/feed?${params}`);
+      // if (!res.ok) throw new Error(`MangaDex feed error: ${res.status}`);
+      // const json = await res.json();
 
       const mapped: MdChapter[] = (json.data ?? []).map((ch: any) => ({
         id: ch.id,
