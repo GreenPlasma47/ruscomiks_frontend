@@ -5,6 +5,7 @@
 //   GET https://api.mangadex.org/at-home/server/{chapterId} → page image URLs
 
 import { useState, useCallback } from "react";
+import api from "../lib/api"; 
 
 const BASE = "https://api.mangadex.org";
 
@@ -41,7 +42,7 @@ export function useMangaDexChapters() {
       };
 
       const res = await api.get(`/mangadex/feed/${mangaDexMangaId}`, { params });
-      if (!res.ok) throw new Error(`MangaDex feed error: ${res.status}`);
+      if (!res) throw new Error("MangaDex feed error: Cannot fetch chapters for manga ${mangaDexMangaId}");
       const json = res.data;
       // const params = new URLSearchParams({
       //   "translatedLanguage[]": language,

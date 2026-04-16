@@ -6,11 +6,11 @@
 
 
 
-import api from "../api"; 
+import api from "../lib/api"; 
 import { useState, useCallback, useRef } from "react";
 
 // const MANGADEX_BASE = "https://api.mangadex.org";
-// const COVER_BASE    = "https://uploads.mangadex.org/covers";
+const COVER_BASE    = "https://uploads.mangadex.org/covers";
 
 export interface MangaDexResult {
   id: string;
@@ -98,7 +98,7 @@ export function useMangaDex() {
         signal: abortRef.current.signal 
       });
 
-      if (!res.ok) throw new Error(`MangaDex error: ${res.status}`);
+      if (!res) throw new Error("MangaDex error: No response received");
       const json = await res.data; // Axios puts response in .data
       setResults((json.data ?? []).map(mapManga));
       // const params = new URLSearchParams({
