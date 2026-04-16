@@ -10,7 +10,7 @@ import api from "../lib/api";
 import { useState, useCallback, useRef } from "react";
 
 // const MANGADEX_BASE = "https://api.mangadex.org";
-const COVER_BASE    = "https://uploads.mangadex.org/covers";
+// const COVER_BASE    = "https://uploads.mangadex.org/covers";
 
 export interface MangaDexResult {
   id: string;
@@ -39,7 +39,8 @@ function extractDescription(attributes: any): string {
 function extractCoverUrl(mangaId: string, relationships: any[]): string | null {
   const coverRel = relationships?.find((r: any) => r.type === "cover_art");
   if (!coverRel?.attributes?.fileName) return null;
-  return `${COVER_BASE}/${mangaId}/${coverRel.attributes.fileName}.512.jpg`;
+  const directUrl = `https://uploads.mangadex.org/covers/${mangaId}/${coverRel.attributes.fileName}.512.jpg`;
+  return `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(directUrl)}`;
 }
 
 function extractAuthors(relationships: any[]): string[] {

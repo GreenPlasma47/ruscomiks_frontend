@@ -92,7 +92,7 @@ export function useMangaDexChapters() {
 
     return filenames.map((filename, i) => ({
       pageNum: i + 1,
-      imageUrl: `${baseUrl}/data/${hash}/${filename}`,
+      imageUrl: `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(`${baseUrl}/data/${hash}/${filename}`)}`,
     }));
   }, []);
 
