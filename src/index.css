@@ -1,0 +1,690 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Noto+Sans+JP:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a24;
+  --bg4: #22223a;
+  --card: #13131e;
+  --border: #2a2a40;
+  --accent: #e63946;
+  --accent2: #ff6b35;
+  --accent3: #ffd60a;
+  --text: #f0f0f5;
+  --text2: #a0a0b8;
+  --text3: #606078;
+  --success: #06d6a0;
+  --info: #4cc9f0;
+  --purple: #7b2d8b;
+  --radius: 8px;
+  --radius-lg: 16px;
+
+  /* Responsive spacing */
+  --page-px: 24px;
+  --section-py: 40px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --page-px: 20px;
+    --section-py: 32px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  :root {
+    --page-px: 16px;
+    --section-py: 24px;
+  }
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+img { max-width: 100%; height: auto; }
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ─── Typography ─────────────────────────────────────────────────────────── */
+.site-title {
+  font-family: 'Bangers', cursive;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────────── */
+.page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--page-px);
+}
+
+/* ─── Navbar ─────────────────────────────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  gap: 24px;
+}
+
+/* Desktop nav links */
+.navbar-links {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  align-items: center;
+}
+
+/* Mobile hamburger — hidden on desktop */
+.navbar-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+/* Mobile drawer */
+.navbar-drawer {
+  display: none;
+  flex-direction: column;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 12px var(--page-px) 20px;
+  gap: 4px;
+}
+
+.navbar-drawer.open {
+  display: flex;
+}
+
+.navbar-drawer a,
+.navbar-drawer button {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  border-radius: var(--radius);
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  display: block;
+}
+
+.navbar-drawer a:hover,
+.navbar-drawer button:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.navbar-drawer a.active {
+  color: var(--accent);
+  background: rgba(230,57,70,0.1);
+}
+
+.navbar-drawer-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .navbar-links { display: none; }
+  .navbar-hamburger { display: flex; align-items: center; justify-content: center; }
+  .navbar-inner { height: 56px; gap: 12px; }
+
+  /* Push user actions to the right on mobile */
+  .navbar-user-actions { margin-left: auto; }
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #c1121f; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  padding: 6px 12px;
+}
+.btn-ghost:hover { color: var(--text); background: var(--bg3); }
+
+/* Touch targets — minimum 44px for accessibility on mobile */
+@media (max-width: 768px) {
+  .btn { min-height: 44px; padding: 10px 16px; }
+  .btn-ghost { min-height: 36px; }
+}
+
+/* ─── Badges ─────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-genre {
+  background: var(--bg4);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+.badge-genre:hover { border-color: var(--accent); color: var(--accent); cursor: pointer; }
+.badge-genre.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.badge-ongoing   { background: rgba(6,214,160,0.15);  color: var(--success); }
+.badge-completed { background: rgba(76,201,240,0.15); color: var(--info);    }
+.badge-hiatus    { background: rgba(255,107,53,0.15); color: var(--accent2); }
+
+/* ─── Cards ──────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Disable hover lift on touch devices — use active state instead */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(230,57,70,0.2);
+  }
+}
+
+@media (hover: none) {
+  .card:active {
+    border-color: var(--accent);
+    box-shadow: 0 4px 16px rgba(230,57,70,0.15);
+  }
+}
+
+/* ─── Comic Grid ─────────────────────────────────────────────────────────── */
+.grid-comics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .grid-comics {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Mobile landscape / large phone */
+@media (max-width: 768px) {
+  .grid-comics {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .grid-comics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  /* Prevent iOS zoom on focus (font-size must be >= 16px or set explicitly) */
+  font-size: 16px;
+}
+
+.input:focus { border-color: var(--accent); }
+.input::placeholder { color: var(--text3); }
+textarea.input { resize: vertical; min-height: 100px; font-size: 16px; }
+select.input { cursor: pointer; font-size: 16px; }
+
+/* ─── Forms ──────────────────────────────────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Modal ──────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal h2 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: var(--text);
+}
+
+/* Modal goes full-screen on small phones */
+@media (max-width: 480px) {
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 92vh;
+    padding: 24px 20px;
+  }
+  .modal h2 { font-size: 22px; }
+}
+
+/* ─── Hero Carousel ──────────────────────────────────────────────────────── */
+.carousel-content h2 { font-size: clamp(28px, 5vw, 52px); }
+
+@media (max-width: 640px) {
+  .carousel-content { padding: 0 var(--page-px); }
+  .carousel-content p { font-size: 14px; }
+}
+
+/* ─── Comic Detail ───────────────────────────────────────────────────────── */
+.comic-detail-grid {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.comic-detail-cover {
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.comic-detail-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+@media (max-width: 640px) {
+  .comic-detail-cover { width: 140px; }
+  .comic-detail-info { min-width: 0; padding-top: 80px !important; }
+  .comic-detail-grid { gap: 20px; }
+}
+
+/* ─── Chapter Reader ─────────────────────────────────────────────────────── */
+.reader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 24px;
+}
+
+.reader-prevnext {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+}
+
+@media (max-width: 640px) {
+  .reader-header { padding: 10px var(--page-px); flex-wrap: nowrap; }
+  .reader-prevnext {
+    padding: 10px var(--page-px);
+    flex-direction: column;
+    gap: 8px;
+  }
+  .reader-prevnext .btn {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+/* ─── Admin / Publisher Dashboard Tables ────────────────────────────────── */
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.responsive-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Forces scroll before squishing */
+}
+
+/* Stack cards on mobile for dashboard comic rows */
+.dashboard-comic-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .dashboard-comic-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .dashboard-comic-row .btn-group {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .dashboard-comic-row .btn-group a,
+  .dashboard-comic-row .btn-group button {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* ─── Browse Page ────────────────────────────────────────────────────────── */
+.browse-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 640px) {
+  .browse-filters { padding: 14px; gap: 10px; }
+  .browse-filters .input { font-size: 16px; }
+}
+
+/* Genre tag wrap on mobile */
+.genre-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ─── Publish Form ───────────────────────────────────────────────────────── */
+.publish-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .publish-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Favorites Page ─────────────────────────────────────────────────────── */
+.favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ─── Login Page ─────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .login-card { padding: 24px 20px !important; }
+}
+
+/* ─── Section headers ────────────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ─── Stat rows (ComicDetail) ───────────────────────────────────────────── */
+.stats-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+  .stats-row { gap: 16px; }
+  .stats-row > div { min-width: 60px; }
+}
+
+/* ─── Manage bar (ComicDetail publisher actions) ────────────────────────── */
+.manage-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  background: rgba(255,214,10,0.06);
+  border: 1px solid rgba(255,214,10,0.2);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .manage-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .manage-bar .btn { width: 100%; justify-content: center; }
+  .manage-bar-label { margin-bottom: 4px; }
+}
+
+/* ─── Chapter list rows ──────────────────────────────────────────────────── */
+.chapter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chapter-row-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .chapter-row { flex-wrap: wrap; }
+  .chapter-row-actions { width: 100%; }
+  .chapter-row-actions .btn { flex: 1; justify-content: center; }
+}
+
+/* ─── Pagination ─────────────────────────────────────────────────────────── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 40px;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  text-align: center;
+  color: var(--text3);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  margin-top: 40px;
+}
+
+/* ─── Utility ─────────────────────────────────────────────────────────────── */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  gap: 8px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.star       { color: var(--accent3); font-size: 16px; }
+.empty-star { color: var(--text3); }
+
+.noise-bg { position: relative; }
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.halftone-pattern {
+  background-image: radial-gradient(circle, rgba(230,57,70,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ─── Hide/show utilities ────────────────────────────────────────────────── */
+.hide-mobile  { display: block; }
+.show-mobile  { display: none;  }
+
+@media (max-width: 768px) {
+  .hide-mobile { display: none;  }
+  .show-mobile { display: block; }
+}
+
+.hide-tablet  { display: block; }
+@media (max-width: 1024px) {
+  .hide-tablet { display: none; }
+}
+
+/* ─── Breakpoint reference (for devs) ───────────────────────────────────── */
+/*
+  --mobile-sm  : max-width 400px   (small phones, iPhone SE)
+  --mobile     : max-width 640px   (phones)
+  --tablet     : max-width 768px   (large phones / small tablets)
+  --tablet-lg  : max-width 1024px  (iPad / landscape tablet)
+  --desktop    : min-width 1025px  (laptop+)
+*/
