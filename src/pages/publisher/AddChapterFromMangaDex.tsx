@@ -85,15 +85,6 @@ export default function AddChapterFromMangaDex() {
     return null;
   };
 
-  const handleFetchChapters = () => {
-    const id = extractMangaDexId(mdUrl || mdMangaId);
-    if (!id) { return; }
-    setMdMangaId(id);
-    fetchChapters(id, language);
-    setStep("chapters");
-  };
-
-  // ── Step 2: select chapter → fetch pages ──────────────────────────────
   const handleSelectChapter = async (ch: MdChapter) => {
     setSelectedChapter(ch);
     setOverrideTitle(ch.title || `Chapter ${ch.chapterNum}`);
@@ -103,17 +94,16 @@ export default function AddChapterFromMangaDex() {
     setStep("preview");
 
     try {
-      const res = await fetch(`https://api.mangadex.org/at-home/server/${ch.id}`);
-      if (!res.ok) throw new Error(`at-home error: ${res.status}`);
-      const json = await res.json();
-      const baseUrl = json.baseUrl;
-      const hash    = json.chapter.hash;
-      const files: string[] = json.chapter.data;
+      // ✅ Route through your backend proxy instead of calling MangaDex directly
+      const res = await api.get(`/mangadex/pages/${ch.id}`);
+      const proxyBase = import.meta.env.VITE_API_URL;
 
-      setPages(files.map((filename, i) => ({
-        pageNum: i + 1,
-        imageUrl: `${baseUrl}/data/${hash}/${filename}`,
-      })));
+      setPages(
+        (res.data as { pageNum: number; imageUrl: string }[]).map((p) => ({
+          pageNum: p.pageNum,
+          imageUrl: `${proxyBase}/mangadex/image?url=${encodeURIComponent(p.imageUrl)}`,
+        }))
+      );
     } catch {
       setPagesError("Could not load page images from MangaDex. The chapter may be unavailable.");
     } finally {
