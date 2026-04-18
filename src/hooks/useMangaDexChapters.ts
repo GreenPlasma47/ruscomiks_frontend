@@ -82,19 +82,29 @@ export function useMangaDexChapters() {
 
   // Fetch page image URLs for a single chapter
   const fetchPages = useCallback(async (chapterId: string): Promise<MdPage[]> => {
-    const res = await api.get(`/mangadex/server/${chapterId}`);
-    if (!res) throw new Error("MangaDex at-home error: No response received");
-    const json = res.data;
+    const res = await api.get(`/mangadex/pages/${chapterId}`);
+    if (!res) throw new Error("MangaDex pages error: No response received");
 
-    const baseUrl    = json.baseUrl;
-    const hash       = json.chapter.hash;
-    const filenames: string[] = json.chapter.data; // original quality
-
-    return filenames.map((filename, i) => ({
-      pageNum: i + 1,
-      imageUrl: `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(`${baseUrl}/data/${hash}/${filename}`)}`,
+    // Backend already returns proxied URLs via the image proxy
+    return (res.data as { pageNum: number; imageUrl: string }[]).map((p) => ({
+      pageNum: p.pageNum,
+      imageUrl: `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(p.imageUrl)}`,
     }));
   }, []);
+  // const fetchPages = useCallback(async (chapterId: string): Promise<MdPage[]> => {
+  //   const res = await api.get(`/mangadex/server/${chapterId}`);
+  //   if (!res) throw new Error("MangaDex at-home error: No response received");
+  //   const json = res.data;
+
+  //   const baseUrl    = json.baseUrl;
+  //   const hash       = json.chapter.hash;
+  //   const filenames: string[] = json.chapter.data; // original quality
+
+  //   return filenames.map((filename, i) => ({
+  //     pageNum: i + 1,
+  //     imageUrl: `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(`${baseUrl}/data/${hash}/${filename}`)}`,
+  //   }));
+  // }, []);
 
   const clearChapters = useCallback(() => {
     setChapters([]); setError(null);
