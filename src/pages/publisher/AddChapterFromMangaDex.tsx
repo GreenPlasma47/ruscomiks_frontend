@@ -85,6 +85,15 @@ export default function AddChapterFromMangaDex() {
     return null;
   };
 
+  const handleFetchChapters = () => {
+    const id = extractMangaDexId(mdUrl || mdMangaId);
+    if (!id) { return; }
+    setMdMangaId(id);
+    fetchChapters(id, language);
+    setStep("chapters");
+  };
+
+  // ── Step 2: select chapter → fetch pages ──────────────────────────────
   const handleSelectChapter = async (ch: MdChapter) => {
     setSelectedChapter(ch);
     setOverrideTitle(ch.title || `Chapter ${ch.chapterNum}`);
