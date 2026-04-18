@@ -110,7 +110,7 @@ export default function AddChapterFromMangaDex() {
       setPages(
         (res.data as { pageNum: number; imageUrl: string }[]).map((p) => ({
           pageNum: p.pageNum,
-          imageUrl: `${proxyBase}/mangadex/image?url=${encodeURIComponent(p.imageUrl)}`,
+          imageUrl: `${proxyBase}/api/mangadex/image?url=${encodeURIComponent(p.imageUrl)}`,
         }))
       );
     } catch {

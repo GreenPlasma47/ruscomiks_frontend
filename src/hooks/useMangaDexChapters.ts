@@ -88,7 +88,7 @@ export function useMangaDexChapters() {
     // Backend already returns proxied URLs via the image proxy
     return (res.data as { pageNum: number; imageUrl: string }[]).map((p) => ({
       pageNum: p.pageNum,
-      imageUrl: `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(p.imageUrl)}`,
+      imageUrl: `${import.meta.env.VITE_API_URL}/api/mangadex/image?url=${encodeURIComponent(p.imageUrl)}`,
     }));
   }, []);
   // const fetchPages = useCallback(async (chapterId: string): Promise<MdPage[]> => {

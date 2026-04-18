@@ -40,7 +40,7 @@ function extractCoverUrl(mangaId: string, relationships: any[]): string | null {
   const coverRel = relationships?.find((r: any) => r.type === "cover_art");
   if (!coverRel?.attributes?.fileName) return null;
   const directUrl = `https://uploads.mangadex.org/covers/${mangaId}/${coverRel.attributes.fileName}.512.jpg`;
-  return `${import.meta.env.VITE_API_URL}/mangadex/image?url=${encodeURIComponent(directUrl)}`;
+  return `${import.meta.env.VITE_API_URL}/api/mangadex/image?url=${encodeURIComponent(directUrl)}`;
 }
 
 function extractAuthors(relationships: any[]): string[] {
